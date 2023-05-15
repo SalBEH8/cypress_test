@@ -4,7 +4,7 @@ describe('Google search', () => {
   })
 
   it('performs a search and displays 10 results', () => {
-    const searchTerm = 'football'
+    const searchTerm = 'danse avec les stars'
 
     // Accept cookies (if prompted)
     cy.get('#L2AGLb').click()
