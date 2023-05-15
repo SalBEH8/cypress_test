@@ -12,11 +12,10 @@ describe('Back Market Registration and Authentication', () => {
            .type('dupont@example.com')
 
         cy.get('input[id="signup-password"]')
-           .type('21091987Sb/')
+           .type('')
 
-        // Ajoutez d'autres champs si nécessaire
 
-        cy.get('button[id="YOUR_SUBMIT_BUTTON_ID"]') // Remplacer par l'identifiant du bouton de soumission
+        cy.get('button[id="YOUR_SUBMIT_BUTTON_ID"]')
            .click()
 
         // Vérifiez que l'inscription a réussi
