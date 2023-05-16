@@ -12,6 +12,8 @@ describe("quest 2", ()=>{
 
         cy.get("#signup-password").type("12081987Sb/");
 
+        cy.get("#newsletter").check({force: true}).should('be.checked');
+
         cy.get('[data-qa="signup-submit-button"]').should('be.visible').click();
 
         /* Test lost
