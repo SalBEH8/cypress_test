@@ -1,0 +1,15 @@
+{
+    "newUser": {
+        "name": "SalBeh",
+        "email": "sal@example.com",
+        "password": "salPassword123"
+    },
+    "userLogin": {
+        "email": "sal@example.com",
+        "password": "salPassword123"
+    },
+    "badUser": {
+        "email": "bad@example.com",
+        "password": "badPassword"
+    }
+}
