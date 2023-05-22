@@ -3,7 +3,18 @@ const testData = require('../fixtures/testData.json');
 // identifiant
 const uuid = () => Cypress._.random(0, 1e6); // Universally Unique Identifier vien avec Node
 const id = uuid(); // integree comme variable
-const testemail = `testemail${id}@example.com`; // random pour les datas
+
+// Commande personnalisée pour la connexion
+Cypress.Commands.add('login', (email, password) => {
+    cy.request('POST', 'https://practice.expandtesting.com/notes/api/users/login', {
+        email,
+        password
+    }).then((response) => {
+        expect(response.status).to.eq(200);
+        expect(response.body.data.email).to.eq(email);
+        expect(response.body.data).to.have.property('token');
+    });
+});
 
 describe('API tests', () => {
     it('Health check', () => {
@@ -13,8 +24,14 @@ describe('API tests', () => {
     });
 
     it('creates a new user', () => {
+
         // permet de crée le random User et PSd
-        const newUser = { name: `TestUser${id}`, email: testemail, password: `TestPassword${id}` };
+        
+        const newUser = { 
+            name: `TestUser${id}`,
+            email: `test${id}@example.com`,
+            password: `TestPassword${id}`
+        };
         cy.request('POST', 'https://practice.expandtesting.com/notes/api/users/register', newUser).then((response) => {
             expect(response.status).to.eq(201);
             expect(response.body.data.name).to.eq(newUser.name);
@@ -24,16 +41,12 @@ describe('API tests', () => {
 
     it('logs in a user', () => {
         // réutilisé pour le relog
-        const userLogin = { email: testemail, password: `TestPassword${id}` };
-        cy.request('POST', 'https://practice.expandtesting.com/notes/api/users/login', userLogin).then((response) => {
-            expect(response.status).to.eq(200);
-            expect(response.body.data.email).to.eq(userLogin.email);
-            expect(response.body.data).to.have.property('token');
-        });
+        const { email, password } = testData.userLogin;
+        cy.login(email, password);
     });
 
-    it('handles bad login', () => {
-        const badUser = { email: `bademail${id}@example.com`, password: 'badPassword' };
+    it('bad login', () => {
+        const badUser = { email: testData.badUser.email, password: testData.badUser.password };
         cy.request({
             method: 'POST',
             url: 'https://practice.expandtesting.com/notes/api/users/login',
